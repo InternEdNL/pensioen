@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pensioen!</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #111111;
+      color: #ffffff;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+      color: #ffffff;
+    }
+
+    .countdown-box {
+      display: inline-block;
+      border: 2px solid #FF6B00;
+      border-radius: 12px;
+      padding: 2.5rem 4rem;
+    }
+
+    .weeks-number {
+      font-size: clamp(5rem, 20vw, 12rem);
+      font-weight: 700;
+      color: #FF6B00;
+      line-height: 1;
+      display: block;
+    }
+
+    .weeks-label {
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #cccccc;
+      margin-top: 0.5rem;
+    }
+
+    .target-date {
+      margin-top: 2.5rem;
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      color: #888888;
+      letter-spacing: 0.05em;
+    }
+
+    .days-remaining {
+      margin-top: 1rem;
+      font-size: clamp(0.8rem, 1.8vw, 0.95rem);
+      color: #555555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Pensioen!</h1>
+    <div class="countdown-box">
+      <span class="weeks-number" id="weeks">—</span>
+      <div class="weeks-label">weken te gaan</div>
+    </div>
+    <div class="target-date" id="target-label"></div>
+    <div class="days-remaining" id="days-label"></div>
+  </div>
+
+  <script>
+    const target = new Date('2029-04-18T00:00:00');
+
+    function update() {
+      const now = new Date();
+      const msLeft = target - now;
+
+      if (msLeft <= 0) {
+        document.getElementById('weeks').textContent = '0';
+        document.getElementById('target-label').textContent = 'Het is zover!';
+        document.getElementById('days-label').textContent = '';
+        return;
+      }
+
+      const daysLeft = Math.ceil(msLeft / (1000 * 60 * 60 * 24));
+      const weeksLeft = Math.ceil(msLeft / (1000 * 60 * 60 * 24 * 7));
+
+      document.getElementById('weeks').textContent = weeksLeft;
+
+      const formatted = target.toLocaleDateString('nl-NL', {
+        day: 'numeric', month: 'long', year: 'numeric'
+      });
+      document.getElementById('target-label').textContent = `tot ${formatted}`;
+      document.getElementById('days-label').textContent = `(${daysLeft} dagen)`;
+    }
+
+    update();
+    setInterval(update, 60000);
+  </script>
+</body>
+</html>
