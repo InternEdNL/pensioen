@@ -65,10 +65,30 @@
       letter-spacing: 0.05em;
     }
 
+    .divider {
+      border: none;
+      border-top: 1px solid #333333;
+      margin: 1.5rem 0;
+    }
+
+    .days-number {
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 700;
+      color: #FF6B00;
+      line-height: 1;
+      display: block;
+    }
+
+    .days-label {
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #cccccc;
+      margin-top: 0.5rem;
+    }
+
     .days-remaining {
-      margin-top: 1rem;
-      font-size: clamp(0.8rem, 1.8vw, 0.95rem);
-      color: #555555;
+      display: none;
     }
   </style>
 </head>
@@ -78,6 +98,9 @@
     <div class="countdown-box">
       <span class="weeks-number" id="weeks">—</span>
       <div class="weeks-label">weken te gaan</div>
+      <hr class="divider">
+      <span class="days-number" id="days">—</span>
+      <div class="days-label">dagen te gaan</div>
     </div>
     <div class="target-date" id="target-label"></div>
     <div class="days-remaining" id="days-label"></div>
@@ -101,12 +124,12 @@
       const weeksLeft = Math.ceil(msLeft / (1000 * 60 * 60 * 24 * 7));
 
       document.getElementById('weeks').textContent = weeksLeft;
+      document.getElementById('days').textContent = daysLeft;
 
       const formatted = target.toLocaleDateString('nl-NL', {
         day: 'numeric', month: 'long', year: 'numeric'
       });
       document.getElementById('target-label').textContent = `tot ${formatted}`;
-      document.getElementById('days-label').textContent = `(${daysLeft} dagen)`;
     }
 
     update();
